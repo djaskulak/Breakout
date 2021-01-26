@@ -49,6 +49,9 @@
     //initialize score
     var score = 0;
 
+    //initialize player lives
+    var lives = 3;
+
     //create the bricks
     var bricks = [];
     for(var c=0; c<brickColumnCount; c++) {
@@ -94,28 +97,35 @@
     function collisionDetection() {
         for(var c=0; c<brickColumnCount; c++) {
             for(var r=0; r<brickRowCount; r++) {
-                var b = bricks[c][r];
-                if(b.status == 1) {
-                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-                        dy = -dy;
-                        b.status = 0;
-                        score++;
-                        if(score == brickRowCount*brickColumnCount) {
-                            alert("YOU WIN, CONGRATULATIONS!");
-                            document.location.reload();
-                            clearInterval(interval); // Needed for Chrome to end game
-                        }
-                    }
+            var b = bricks[c][r];
+            if(b.status == 1) {
+                if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+                dy = -dy;
+                b.status = 0;
+                score++;
+                if(score == brickRowCount*brickColumnCount) {
+                    alert("YOU WIN, CONGRATS!");
+                    document.location.reload();
                 }
+                }
+            }
             }
         }
     } // end of collisionDetection
 
+    // function to write the score 
     function drawScore() {
         ctx.font = "16px Arial";
         ctx.fillStyle = "#0095DD";
         ctx.fillText("Score: "+score, 8, 20);
     } // end of drawScore
+
+    //function to write the number of lives 
+    function drawLives() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+    } //endof drawLives
 
     // drawing the ball over and over while it moves
     function drawBall() {
@@ -157,7 +167,9 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBall();
         drawPaddle();
+        drawBricks();
         drawScore();
+        drawLives();
 
         // This will allow the ball to bounce off the 4 corners of the canvas
         if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
@@ -170,9 +182,18 @@
                 dy = -dy;
             }
             else {
-                alert("GAME OVER");
-                document.location.reload();
-                clearInterval(interval);
+                lives--;
+                if(!lives) {
+                    alert("GAME OVER");
+                    document.location.reload();
+                }
+                else {
+                    x = canvas.width/2;
+                    y = canvas.height-30;
+                    dx = 2;
+                    dy = -2;
+                    paddleX = (canvas.width-paddleWidth)/2;
+                }
             }
         }
 
@@ -193,10 +214,12 @@
         // This is what moves the ball
         x += dx;
         y += dy;
+
+        requestAnimationFrame(draw);
     } // end of draw
 
-    //interval to redraw the canvas 
-    var interval = setInterval(draw, 10);
+    //redraw the canvas 
+    draw();
 </script>
 
 </body>
