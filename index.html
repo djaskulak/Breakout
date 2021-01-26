@@ -46,6 +46,9 @@
     var brickOffsetTop = 30;
     var brickOffsetLeft = 30;
 
+    //initialize score
+    var score = 0;
+
     //create the bricks
     var bricks = [];
     for(var c=0; c<brickColumnCount; c++) {
@@ -79,18 +82,30 @@
     } // end of keyUpHandler
 
     function collisionDetection() {
-        for (var c = 0; c < brickColumnCount; c++) {
-            for (var r = 0; r < brickRowCount; r++) {
+        for(var c=0; c<brickColumnCount; c++) {
+            for(var r=0; r<brickRowCount; r++) {
                 var b = bricks[c][r];
-                if (b.status == 1) {
-                    if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+                if(b.status == 1) {
+                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                         dy = -dy;
                         b.status = 0;
+                        score++;
+                        if(score == brickRowCount*brickColumnCount) {
+                            alert("YOU WIN, CONGRATULATIONS!");
+                            document.location.reload();
+                            clearInterval(interval); // Needed for Chrome to end game
+                        }
                     }
                 }
             }
         }
     } // end of collisionDetection
+
+    function drawScore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Score: "+score, 8, 20);
+    } // end of drawScore
 
     // drawing the ball over and over while it moves
     function drawBall() {
@@ -132,6 +147,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBall();
         drawPaddle();
+        drawScore();
 
         // This will allow the ball to bounce off the 4 corners of the canvas
         if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
