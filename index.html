@@ -62,6 +62,16 @@
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
+    // event listener for mouse movement
+    document.addEventListener("mousemove", mouseMoveHandler, false);
+
+    function mouseMoveHandler(e) {
+        var relativeX = e.clientX - canvas.offsetLeft;
+        if(relativeX > 0 && relativeX < canvas.width) {
+            paddleX = relativeX - paddleWidth/2;
+        }
+    } // end of mouseMoveHandler
+
     // if statements to change the key booleans if they're pressed
     function keyDownHandler(e) {
         if(e.key == "Right" || e.key == "ArrowRight") {
