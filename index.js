@@ -10,8 +10,8 @@ const x = canvas.width / 2;
 const y = canvas.height - 30;
 
 // defining the speed of the ball
-const dx = 2;
-const dy = -2;
+let dx = 2;
+let dy = -2;
 
 // defining ball size
 const ballRadius = 10;
@@ -19,11 +19,11 @@ const ballRadius = 10;
 // defining paddle variables
 const paddleHeight = 10;
 const paddleWidth = 75;
-const paddleX = (canvas.width - paddleWidth) / 2;
+let paddleX = (canvas.width - paddleWidth) / 2;
 
 // defining the paddle key booleans
-const rightPressed = false;
-const leftPressed = false;
+let rightPressed = false;
+let leftPressed = false;
 
 // initialize variables for the bricks
 const brickRowCount = 3;
