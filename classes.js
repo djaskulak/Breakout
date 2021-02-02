@@ -1,3 +1,18 @@
+// CONSTANTS
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+// INITIALIZATIONS
+const ball1 = new Ball();
+function renderObjectsOnCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ball1.move(canvas);
+  ball1.drawBall(ctx);
+}
+// defining the paddle key booleans
+let rightPressed = false;
+let leftPressed = false;
+
 class Ball {
   constructor() {
     this.ballRadius = 10;
@@ -30,29 +45,50 @@ class Ball {
     this.y += this.dy;
   }
 }
-// CONSTANTS
-const canvas = document.getElementById('myCanvas');
-const ctx = canvas.getContext('2d');
-// INITIALIZATIONS
-const ball1 = new Ball();
-function renderObjectsOnCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ball1.move(canvas);
-  ball1.drawBall(ctx);
-}
-setInterval(renderObjectsOnCanvas, 10);
-
 
 // class for paddle
 class Paddle {
-  constructor(argpaddleX, argRight, argLeft) {
-    this.paddleX = argpaddleX;
-    this.rightPressed = argRight;
-    this.leftPressed = argLeft;
+  constructor(canvas) {
+    this.color = '#3a3a3a';
+    this.paddleHeight = 10;
+    this.paddleWidth = 75;
+    this.paddleX = (canvas.width - paddleWidth) / 2;
+    this.paddleY = canvas.height - paddleHeight;
   }
 
-  // defining paddle variables
-  const paddleHeight = 10;
-  const paddleWidth = 75;
-  const paddleX = (canvas.width - paddleWidth) / 2;
+  drawPaddle(ctx) {
+    console.log(ctx);
+    ctx.rect(this.paddleX, this.paddleY, this.paddleWidth, this.paddleHeight);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  move(canvas) {
+    if (rightPressed) {
+      this.paddleX += 7;
+      if (this.paddleX + this.paddleWidth > canvas.width) {
+        this.paddleX = canvas.width - this.paddleWidth;
+      }
+    } else if (leftPressed) {
+      this.paddleX -= 7;
+      if (this.paddleX < 0) {
+        this.paddleX = 0;
+      }
+    }
+  }
 }
+
+class Brick {
+  constructor() {
+
+  }
+
+  drawBricks() {
+
+  }
+
+  
+}
+
+setInterval(renderObjectsOnCanvas, 10);

@@ -2,6 +2,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-const-assign */
 // storing a reference for the canvas
+
+import * from 'classes.js';
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
