@@ -81,6 +81,8 @@ class Paddle {
 
 class Brick {
   constructor() {
+    //padding, color, width, height, x, y, columnCount, rowCount
+    this.color = '#3a3a3a';
 
   }
 
@@ -88,7 +90,7 @@ class Brick {
 
   }
 
-  
+
 }
 
 setInterval(renderObjectsOnCanvas, 10);
